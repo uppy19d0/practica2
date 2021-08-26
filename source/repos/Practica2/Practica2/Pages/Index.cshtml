@@ -1,0 +1,42 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Practica 2</h1>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Cargo</th>
+            <th scope="col">Salario Mensual</th>
+            <th scope="col">Descuento AFP</th>
+            <th scope="col">Descuento ARS o Seguro Familiar de Salud (SFS) </th>
+            <th scope="col">Descuento ISR</th>
+            <th scope="col">Total Descuento</th>
+            <th scope="col">Salario Neto</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var test in Model._nominaList)
+        {
+        <tr>
+            <td>@test.Nombre</td>
+            <td>@test.Apellido</td>
+            <td>@test.Cargo</td>
+            <td>@test.SalarioMensual</td>
+            <td>@test.DescuentoAfp</td>
+            <td>@test.DescuentoArs</td>
+            <td>@test.DescuentoIsr</td>
+            <td>@test.TotalDescuento</td>
+            <td>@test.SalarioNeto</td>
+        </tr>
+        }
+    </tbody>
+</table>
