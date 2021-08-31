@@ -32,11 +32,11 @@ namespace Practica2.Pages
             _nominaList = new List<Nomina>()
             {
 
-                new Nomina(){Nombre="Luis",Apellido="Tavarez",Cargo="Software Developer",SalarioMensual=60000,DescuentoAfp=DescuentoAFP(60000),DescuentoArs=DescuentoArs(60000),DescuentoIsr=DescuentoIsr(60000),TotalDescuento=TotalDescuento(DescuentoAFP(60000),DescuentoArs(60000),DescuentoIsr(60000)),SalarioNeto=SalarioNeto(60000,DescuentoAFP(60000),DescuentoArs(60000),DescuentoIsr(60000))},
-                new Nomina(){Nombre="Juan",Apellido="Martinez",Cargo="Recurso Humano",SalarioMensual=50000,DescuentoAfp=DescuentoAFP(50000),DescuentoArs=DescuentoArs(50000),DescuentoIsr=DescuentoIsr(50000),TotalDescuento=TotalDescuento(DescuentoAFP(50000),DescuentoArs(50000),DescuentoIsr(50000)),SalarioNeto=SalarioNeto(50000,DescuentoAFP(50000),DescuentoArs(50000),DescuentoIsr(50000))},
-                new Nomina(){Nombre="Maria",Apellido="Rodriguez",Cargo="Analista de Calidad",SalarioMensual=40000,DescuentoAfp=DescuentoAFP(40000),DescuentoArs=DescuentoArs(40000),DescuentoIsr=DescuentoIsr(40000),TotalDescuento=TotalDescuento(DescuentoAFP(40000),DescuentoArs(40000),DescuentoIsr(40000)),SalarioNeto=SalarioNeto(40000,DescuentoAFP(40000),DescuentoArs(40000),DescuentoIsr(40000))},
-                new Nomina(){Nombre="Pedro",Apellido="Fermin",Cargo="GERENTE TIC",SalarioMensual=120000,DescuentoAfp=DescuentoAFP(120000),DescuentoArs=DescuentoArs(120000),DescuentoIsr=DescuentoIsr(120000),TotalDescuento=TotalDescuento(DescuentoAFP(120000),DescuentoArs(120000),DescuentoIsr(120000)),SalarioNeto=SalarioNeto(120000,DescuentoAFP(120000),DescuentoArs(120000),DescuentoIsr(120000))},
-                new Nomina(){Nombre="Kellyn",Apellido="Solsa",Cargo="Developer SR",SalarioMensual=90000,DescuentoAfp=DescuentoAFP(90000),DescuentoArs=DescuentoArs(90000),DescuentoIsr=DescuentoIsr(90000),TotalDescuento=TotalDescuento(DescuentoAFP(90000),DescuentoArs(90000),DescuentoIsr(90000)),SalarioNeto=SalarioNeto(90000,DescuentoAFP(90000),DescuentoArs(90000),DescuentoIsr(90000))},
+                new Nomina(){Nombre="Luis",Apellido="Tavarez",Cargo="Software Developer",SalarioMensual=60000,DescuentoAfp=DescuentoAFP(60000),DescuentoArs=DescuentoArs(60000),DescuentoIsr=DescuentoIsr(60000),TotalDescuento=TotalDescuento(60000),SalarioNeto=SalarioNeto(60000)},
+                new Nomina(){Nombre="Juan",Apellido="Martinez",Cargo="Recurso Humano",SalarioMensual=58000,DescuentoAfp=DescuentoAFP(58000),DescuentoArs=DescuentoArs(58000),DescuentoIsr=DescuentoIsr(58000),TotalDescuento=TotalDescuento(58000),SalarioNeto=SalarioNeto(58000)},
+                new Nomina(){Nombre="Maria",Apellido="Rodriguez",Cargo="Analista de Calidad",SalarioMensual=70000,DescuentoAfp=DescuentoAFP(70000),DescuentoArs=DescuentoArs(70000),DescuentoIsr=DescuentoIsr(70000),TotalDescuento=TotalDescuento(70000),SalarioNeto=SalarioNeto(70000)},
+                new Nomina(){Nombre="Pedro",Apellido="Fermin",Cargo="GERENTE TIC",SalarioMensual=120000,DescuentoAfp=DescuentoAFP(120000),DescuentoArs=DescuentoArs(120000),DescuentoIsr=DescuentoIsr(120000),TotalDescuento=TotalDescuento(120000),SalarioNeto=SalarioNeto(120000)},
+                new Nomina(){Nombre="Kellyn",Apellido="Solsa",Cargo="Developer SR",SalarioMensual=90000,DescuentoAfp=DescuentoAFP(90000),DescuentoArs=DescuentoArs(90000),DescuentoIsr=DescuentoIsr(90000),TotalDescuento=TotalDescuento(90000),SalarioNeto=SalarioNeto(90000)}
             };
         }
 
@@ -53,31 +53,23 @@ namespace Practica2.Pages
         public double DescuentoIsr(double salario)
         {
             double total = 0;
-
-            if (salario * 12 >= 416220)
+            total = (salario - (DescuentoArs(salario) + DescuentoAFP(salario))) * 12;
+            double limit = 624_329.01;
+            if (total > limit)
             {
-                total = salario * 15 / 100;
+                total = Math.Round((((total - limit) * 0.20) + 31_216.00) / 12, 2);
             }
-            if (salario * 12 >= 624329)
-            {
-                total = salario * 20 / 100;
-            }
-            if (salario * 12 >= 867123)
-            {
-                total = salario * 25 / 100;
-            }
-
 
             return total;
         }
-        public double TotalDescuento(double afp, double ars, double isr)
+        public double TotalDescuento(double salario)
         {
-            var total = afp + ars + isr;
+            var total = DescuentoAFP(salario) + DescuentoArs(salario) + DescuentoIsr(salario);
             return total;
         }
-        public double SalarioNeto(double salario, double afp, double ars, double isr)
+        public double SalarioNeto(double salario)
         {
-            var total = salario - afp - ars - isr;
+            var total = salario - DescuentoAFP(salario) - DescuentoArs(salario) - DescuentoIsr(salario);
             return total;
         }
     }
