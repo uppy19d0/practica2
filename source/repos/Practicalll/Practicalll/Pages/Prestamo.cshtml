@@ -1,0 +1,71 @@
+﻿@page
+@model Practicalll.Pages.PrestamoModel
+@{
+}
+@{ string ShowMoney(double money) => $"RD{money.ToString("c")}"; }
+
+
+<h1>Prestamos</h1>
+<hr />
+
+<div class="w-75 shadow-lg p-5 mb-5 bg-white rounded"
+     style="margin: 0 auto">
+    <form asp-route="OnCalculate" method="post">
+        <h3>Calculadora de Prestamos</h3>
+        <hr />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputMonto">Monto</label>
+                <input type="tel"
+                       class="form-control"
+                       id="inputMonto"
+                       name="Monto"
+                       placeholder="Ingrese el monto">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputCuotas">Cuotas</label>
+                <input type="tel"
+                       class="form-control"
+                       id="inputCuotas"
+                       name="Cuotas"
+                       placeholder="Ingrese la cantidad de cuotas">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputInteres">Intereses</label>
+                <input type="tel"
+                       class="form-control"
+                       id="inputInteres"
+                       name="Interes"
+                       placeholder="Ingrese el porcentaje del interes anual">
+            </div>
+        </div>
+        <div id="result" class="m-3">
+            @if (Model.Prestamo.ValidateResult.IsValid)
+            {
+                <div class="alert alert-success">
+                    <h4>Resultados</h4>
+                    <p>
+                        <strong>Deuda Total:</strong> @ShowMoney(Model.Prestamo.DeudaTotal)
+                    </p>
+                    <p>
+                        <strong>Cuota Mensual:</strong> @ShowMoney(Model.Prestamo.CoutaMensual)
+                    </p>
+                </div> }
+            else
+            {
+                @if (Model.Prestamo.ValidateResult.ErrorMessage.Count() > 0)
+                {
+                    <div class="alert alert-danger">
+                        <h4>Todos los campos son obligatorios.</h4>
+                        @foreach (var error in Model.Prestamo.ValidateResult.ErrorMessage)
+                        {
+                            <p>@error</p>}
+                    </div>          }}
+        </div>
+        <button type="submit" class="btn btn-outline-success btn-block">
+            Calcular Cuota Mensual
+        </button>
+    </form>
+</div>
+
+<a href="/Index" class="btn btn-block btn-outline-info w-50" style="margin: 0 auto;">Inicio</a>

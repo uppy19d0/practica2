@@ -1,0 +1,113 @@
+﻿@page
+@model Practicalll.Pages.CajeroModel
+@{
+}
+
+<hr />
+
+<style scoped>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        color: black
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+<h1>Cajero Automático</h1>
+<table class="table table-striped">
+    <tr>
+        <th>Billetes: 1,000</th>
+        <th>Billetes: 500</th>
+        <th>Billetes: 100</th>
+    </tr>
+    <tr>
+        <td>
+            @Model.Monedas[1000] = RD$ @string.Format("{0:#,0.00}", @Model.Monedas[1000] * 1000)
+        </td>
+        <td>
+            @Model.Monedas[500] = RD$ @string.Format("{0:#,0.00}", @Model.Monedas[500] * 500)
+        </td>
+        <td>
+            @Model.Monedas[100] = RD$ @string.Format("{0:#,0.00}", @Model.Monedas[100] * 100)
+        </td>
+    </tr>
+</table>
+<br />
+<br />
+
+<form class="form" method="post">
+    <div class="from-group">
+        <div class="form-group">
+            <label for="fbanco">Banco: </label>
+
+            <select id="fbanco" name="Banco" class="form-control form-control-sm" aria-label="Default select">
+                <option value="">Otro Banco</option>
+                <option value="ABC">ABC</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-group">
+            <label for="fretiro">Monto Retiro: </label>
+            <input type="number" id="fretiro" class="input-group" name="MontoRetirar">
+        </div>
+    </div>
+
+
+    <input type="submit" value="Retirar" class="btn btn-info" asp-page-handler="Submit" />
+
+</form>
+
+
+<br />
+
+@if (Model.Retiros.Count > 0)
+{
+    <h3>Retiros Realizados</h3>
+    <table>
+        <tr>
+            <th>Retiro #</th>
+            <th>Monto Retiro</th>
+            <th>Billetes</th>
+        </tr>
+        @foreach (var item in Model.Retiros)
+        {
+            <tr>
+                <td>
+                    @item.NoRetiro
+                </td>
+                <td>
+                    @string.Format("{0:#,0.00}", @item.MontoRetiro)
+                </td>
+                <td>
+                    @foreach (var items in @item.billetes)
+                    {
+                        <p>@items</p>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+<br />
+
+@if (Model.MensajeError != "")
+{
+    <div class="alert alert-danger">
+        <p>@Model.MensajeError</p>
+    </div>
+}
